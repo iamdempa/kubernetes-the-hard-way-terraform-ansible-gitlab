@@ -3,6 +3,7 @@ stages:
   - BUILD-INFRASTRUCTURE
   - CONFIG-ANSIBLE
   - MONITORING
+  - build-gcp
 
   - DESTROY
 
