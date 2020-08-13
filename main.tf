@@ -97,7 +97,7 @@ resource "google_compute_instance" "controllers" {
     subnetwork = google_compute_subnetwork.kubernetes.name
     network_ip = "10.240.0.10"    
   }
-  
+
   metadata_startup_script = <<-EOF
               #!/bin/bash    
               sudo apt-get update -y
@@ -109,7 +109,7 @@ resource "google_compute_instance" "controllers" {
             EOF  
 
   service_account {
-    scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write,monitoring"]
+    scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write", "monitoring"]
   }
 }
 
@@ -152,6 +152,6 @@ resource "google_compute_instance" "workers" {
             EOF  
 
   service_account {
-    scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write,monitoring"]
+    scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write", "monitoring"]
   }
 }
