@@ -153,6 +153,7 @@ resource "google_compute_instance" "workers" {
     pod-cidr = "10.200.0.0/24"
   }
     
+    
   metadata_startup_script = <<-EOF
               #!/bin/bash    
               sudo apt-get update -y
