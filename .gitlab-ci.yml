@@ -1,0 +1,133 @@
+stages:
+  - PREREQUISITES
+  - BUILD-INFRASTRUCTURE
+  - CONFIG-ANSIBLE
+  - MONITORING
+
+  - DESTROY
+
+create-ssh-key-pair:
+  stage: PREREQUISITES
+  resource_group: prerequisites
+  script:
+    - pwd
+    - mkdir -p ~/.ssh
+    - |
+      #!/bin/bash
+      FILE=~/.ssh/id_rsa
+      if [ -f "$FILE" ]; then
+          echo "$FILE exists."
+      else 
+          ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa 2>/dev/null <<< y >/dev/null
+      fi
+    - echo $PUBLICKEYNEW > ~/.ssh/gitlabnew.pub
+    - chmod 400 ~/.ssh/gitlabnew.pub
+  tags:
+    - banuka-gcp-k8s-hard-way
+
+check-prerequisites:
+  stage: PREREQUISITES
+  resource_group: prerequisites
+  script:
+    - echo "hi"
+    - yum update --exclude=google-cloud-sdk -y && sudo yum install wget unzip -y
+  tags:
+    - banuka-gcp-k8s-hard-way
+
+install-terraform:
+  stage: PREREQUISITES
+  resource_group: prerequisites
+  script:
+    - export VER="0.13.0-beta3"
+    - wget https://releases.hashicorp.com/terraform/${VER}/terraform_${VER}_linux_amd64.zip
+    - unzip terraform_${VER}_linux_amd64.zip
+    - mv terraform /usr/local/bin/
+    - pwd
+    - rm -rf terraform_${VER}_linux_amd64.zip
+    - which terraform
+  tags:
+    - banuka-gcp-k8s-hard-way
+
+# build-gcp:
+#   stage: BUILD-INFRASTRUCTURE
+#   resource_group: build
+#   script:
+#     - echo "" > ~/.ssh/known_hosts
+#     - terraform init
+#     - terraform plan
+#     - terraform apply --auto-approve
+#   tags:
+#     - banuka-gcp-k8s-hard-way
+
+# restart-sshd:
+#   stage: BUILD-INFRASTRUCTURE
+#   resource_group: build
+#   script:
+#     - pwd
+#     - export ANSIBLE_HOST_KEY_CHECKING=False
+#     - |
+#       string="StrictHostKeyChecking no"
+#       file=/etc/ssh/ssh_config
+
+#       grep -qwi "$string$" "$file" && \
+#       sed -i "s,\(^[^[:alnum:]]*\)\($string$\),\2,i" "$file" || \
+#       sudo echo "$string" >> "$file"
+
+#     - cat /etc/ssh/ssh_config
+#     - mkdir -p /etc/ansible && touch /etc/ansible/hosts
+#     - cat /etc/ansible/hosts
+#     - cd ~/.ssh
+#     - service sshd restart
+#     - ls
+#   tags:
+#     - banuka-gcp-k8s-hard-way
+
+# ansible-ping-test:
+#   stage: CONFIG-ANSIBLE
+#   resource_group: ansible
+#   retry:
+#     max: 2
+#     when:
+#       - always
+#   script:
+#     - ansible -m ping all
+#     - ls
+#   when: delayed
+#   start_in: 55 seconds
+#   tags:
+#     - banuka-gcp-k8s-hard-way
+
+# ansible-playbooks:
+#   stage: CONFIG-ANSIBLE
+#   resource_group: ansible
+#   retry:
+#     max: 2
+#     when:
+#       - always
+#   script:
+#     - echo "ansible"
+#     - ansible-playbook ./ansible-playbooks/kubernetes/master_and_minions.yaml
+#     - ansible-playbook ./ansible-playbooks/kubernetes/master.yaml
+#     - ansible-playbook ./ansible-playbooks/kubernetes/join_master_and_hosts.yaml
+#   when: delayed
+#   start_in: 1 minutes
+#   tags:
+#     - banuka-gcp-k8s-hard-way
+
+destroy_if_failed:
+  stage: DESTROY
+  script:
+    - terraform init
+    - terraform destroy --auto-approve
+  when: on_failure
+  tags:
+    - banuka-gcp-k8s-hard-way
+
+destroy:
+  stage: DESTROY
+  script:
+    - terraform init
+    - terraform destroy --auto-approve
+  when: manual
+  tags:
+    - banuka-gcp-k8s-hard-way
