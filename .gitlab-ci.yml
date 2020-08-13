@@ -1,9 +1,9 @@
 stages:
   - PREREQUISITES
   - BUILD-INFRASTRUCTURE
+  - restart-sshd
   - CONFIG-ANSIBLE
   - MONITORING
-  - build-gcp
 
   - DESTROY
 
@@ -52,7 +52,6 @@ install-terraform:
 
 build-gcp:
   stage: BUILD-INFRASTRUCTURE
-  # resource_group: build
   script:
     - echo "" > ~/.ssh/known_hosts
     - terraform init
@@ -62,10 +61,7 @@ build-gcp:
     - banuka-gcp-k8s-hard-way
 
 restart-sshd:
-  stage: BUILD-INFRASTRUCTURE
-  needs:
-    - job: build-gcp
-  # resource_group: build
+  stage: restart-sshd
   script:
     - pwd
     - export ANSIBLE_HOST_KEY_CHECKING=False
