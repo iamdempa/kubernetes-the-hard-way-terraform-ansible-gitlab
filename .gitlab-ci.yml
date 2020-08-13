@@ -107,9 +107,9 @@ Create-Certificates:
       - always
   script:
     - echo "ansible"
-    - ansible-playbook ./ansible-playbooks/1_ca/ca.yaml
-    # - ansible-playbook ./ansible-playbooks/kubernetes/master.yaml
-    # - ansible-playbook ./ansible-playbooks/kubernetes/join_master_and_hosts.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca/1_ca.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca/2_admin.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca/3_kubelet.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
