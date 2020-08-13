@@ -68,9 +68,9 @@ resource "google_compute_firewall" "kubernetes-the-hard-way-allow-external" {
   source_ranges = ["0.0.0.0/0"]
 }
 
-# create a IP address 
-resource "google_compute_address" "kubernetes-the-hard-way" {
-  name = "kubernetes-the-hard-way"
+# create an External IP address for master
+resource "google_compute_address" "kubernetes-the-hard-way-controller" {
+  name = "kubernetes-the-hard-way-controller"
 }
 
 
@@ -79,7 +79,6 @@ resource "google_compute_instance" "controllers" {
   name         = "controller-0"
   machine_type = "e2-standard-2"
   zone         = var.zone
-  address_type = "EXTERNAL"
 
   can_ip_forward = true
 
@@ -97,6 +96,9 @@ resource "google_compute_instance" "controllers" {
   network_interface {
     subnetwork = google_compute_subnetwork.kubernetes.name
     network_ip = "10.240.0.10"    
+    access_config {
+      nat_ip = google_compute_address.kubernetes-the-hard-way-controller.address
+    }
   }
 
   metadata_startup_script = <<-EOF
@@ -113,6 +115,12 @@ resource "google_compute_instance" "controllers" {
     scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write", "monitoring"]
   }
 }
+
+# create an External IP address for worker
+resource "google_compute_address" "kubernetes-the-hard-way-worker" {
+  name = "kubernetes-the-hard-way-worker"
+}
+
 
 # worker node/s
 resource "google_compute_instance" "workers" {
@@ -137,7 +145,7 @@ resource "google_compute_instance" "workers" {
     subnetwork = google_compute_subnetwork.kubernetes.name
     network_ip = "10.240.0.20"
     access_config {
-      // Ephemeral IP
+      nat_ip = google_compute_address.kubernetes-the-hard-way-worker.address
     }
   }
 
