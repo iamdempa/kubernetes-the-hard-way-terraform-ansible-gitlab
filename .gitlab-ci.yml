@@ -98,7 +98,7 @@ ansible-ping-test:
   tags:
     - banuka-gcp-k8s-hard-way
 
-ansible-playbooks:
+Create-Certificates:
   stage: CONFIG-ANSIBLE
   resource_group: ansible
   retry:
