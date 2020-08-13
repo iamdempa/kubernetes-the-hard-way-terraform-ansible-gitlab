@@ -93,8 +93,8 @@ ansible-ping-test:
   script:
     - ansible -m ping all
     - ls
-  when: delayed
-  start_in: 55 seconds
+  # when: delayed
+  # start_in: 55 seconds
   tags:
     - banuka-gcp-k8s-hard-way
 
@@ -110,8 +110,8 @@ ansible-playbooks:
     - ansible-playbook ./ansible-playbooks/1_ca/ca.yaml
     # - ansible-playbook ./ansible-playbooks/kubernetes/master.yaml
     # - ansible-playbook ./ansible-playbooks/kubernetes/join_master_and_hosts.yaml
-  when: delayed
-  start_in: 1 minutes
+  # when: delayed
+  # start_in: 1 minutes
   tags:
     - banuka-gcp-k8s-hard-way
 

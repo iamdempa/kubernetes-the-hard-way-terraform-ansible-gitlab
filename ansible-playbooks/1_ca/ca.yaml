@@ -10,6 +10,7 @@
         dest: /tmp
 
     - name: Changing perm of "cfssl", adding "+x"
+      become: true
       file:
         dest: /tmp/cfssl
         mode: +x
@@ -21,11 +22,13 @@
         dest: /tmp
 
     - name: Changing perm of "cfssljson", adding "+x"
+      become: true
       file:
         dest: /tmp/cfssljson
         mode: +x
 
     - name: Moving cfssl & cfssljson to /usr/local/bin/
+      become: true
       copy: src=/tmp/{{ item }} dest=/usr/local/bin/
       with_items:
         - cfssl
