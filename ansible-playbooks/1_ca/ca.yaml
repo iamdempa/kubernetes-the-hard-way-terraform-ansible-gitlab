@@ -8,6 +8,34 @@
         src: "/etc/ansible/hosts"
         dest: "/root/machan.txt"
 
+    - name: Install cfssl
+      become: true
+      get_url: 
+        url: "https://storage.googleapis.com/kubernetes-the-hard-way/cfssl/1.4.1/linux/cfssl"
+        dest: /tmp
+
+    - name: Changing perm of "cfssl", adding "+x"
+      file: 
+        dest: /tmp/cfssl
+        mode: +x         
+
+    - name: Install cfssljson
+      become: true
+      get_url: 
+        url: "https://storage.googleapis.com/kubernetes-the-hard-way/cfssl/1.4.1/linux/cfssljson"
+        dest: /tmp        
+          
+    - name: Changing perm of "cfssljson", adding "+x"
+      file: 
+        dest: /tmp/cfssljson
+        mode: +x          
+
+    - name: Moving cfssl & cfssljson to /usr/local/bin/
+      copy: src=/tmp/{{ item }} dest=/usr/local/bin/
+      with_items:
+        - cfssl
+        - cfssljson               
+
     - name: Create the ca.pem & ca-key.pem
       become: true
       shell: |
