@@ -81,7 +81,7 @@ resource "google_compute_instance" "controllers" {
   zone         = var.zone
 
   can_ip_forward = true
-  network_ip = "10.240.0.10"
+
 
 
   tags = ["kubernetes-the-hard-way", "controller"]
@@ -95,11 +95,9 @@ resource "google_compute_instance" "controllers" {
 
   network_interface {
     subnetwork = google_compute_subnetwork.kubernetes.name
-
-    access_config {
-      // Ephemeral IP
-    }
+    network_ip = "10.240.0.10"    
   }
+  
   metadata_startup_script = <<-EOF
               #!/bin/bash    
               sudo apt-get update -y
@@ -122,7 +120,7 @@ resource "google_compute_instance" "workers" {
   zone         = var.zone
 
   can_ip_forward = true
-  network_ip = "10.240.0.20"
+  
 
 
   tags = ["kubernetes-the-hard-way", "worker"]
@@ -136,10 +134,7 @@ resource "google_compute_instance" "workers" {
   
   network_interface {
     subnetwork = google_compute_subnetwork.kubernetes.name
-
-    access_config {
-      // Ephemeral IP
-    }
+    network_ip = "10.240.0.20"
   }
 
   metadata = {
