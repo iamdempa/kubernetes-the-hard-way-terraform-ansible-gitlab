@@ -135,6 +135,9 @@ resource "google_compute_instance" "workers" {
   network_interface {
     subnetwork = google_compute_subnetwork.kubernetes.name
     network_ip = "10.240.0.20"
+    access_config {
+      // Ephemeral IP
+    }
   }
 
   metadata = {

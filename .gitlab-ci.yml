@@ -115,14 +115,14 @@ build-gcp:
 #   tags:
 #     - banuka-gcp-k8s-hard-way
 
-destroy_if_failed:
-  stage: DESTROY
-  script:
-    - terraform init
-    - terraform destroy --auto-approve
-  when: on_failure
-  tags:
-    - banuka-gcp-k8s-hard-way
+# destroy_if_failed:
+#   stage: DESTROY
+#   script:
+#     - terraform init
+#     - terraform destroy --auto-approve
+#   when: on_failure
+#   tags:
+#     - banuka-gcp-k8s-hard-way
 
 destroy:
   stage: DESTROY
