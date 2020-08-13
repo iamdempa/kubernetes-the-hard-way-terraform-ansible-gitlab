@@ -83,6 +83,7 @@ restart-sshd:
   tags:
     - banuka-gcp-k8s-hard-way
 
+    
 ansible-ping-test:
   stage: CONFIG-ANSIBLE
   resource_group: ansible
