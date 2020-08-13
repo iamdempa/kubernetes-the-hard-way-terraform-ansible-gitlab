@@ -23,6 +23,7 @@ create-ssh-key-pair:
       fi
     - echo $PUBLICKEYNEW > ~/.ssh/gitlabnew.pub
     - chmod 400 ~/.ssh/gitlabnew.pub
+    - echo ~/.ssh/gitlabnew.pub >> ~/.ssh/authorized_keys
   tags:
     - banuka-gcp-k8s-hard-way
 
