@@ -33,7 +33,7 @@ check-prerequisites:
   script:
     - echo "hi"
     - yum update --exclude=google-cloud-sdk -y && sudo yum install wget unzip -y
-    - wget -q --timestamping \
+    - wget -q \
       https://storage.googleapis.com/kubernetes-the-hard-way/cfssl/1.4.1/linux/cfssl \
       https://storage.googleapis.com/kubernetes-the-hard-way/cfssl/1.4.1/linux/cfssljson
     - chmod +x cfssl cfssljson
