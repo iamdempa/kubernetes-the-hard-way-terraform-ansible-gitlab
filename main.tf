@@ -73,7 +73,6 @@ resource "google_compute_address" "kubernetes-the-hard-way-controller" {
   name = "kubernetes-the-hard-way-controller"
 }
 
-
 # master node/s
 resource "google_compute_instance" "controllers" {
   name         = "controller-0"
@@ -130,11 +129,8 @@ resource "google_compute_instance" "workers" {
 
   can_ip_forward = true
   
-
-
   tags = ["kubernetes-the-hard-way", "worker"]
   
-
   boot_disk {
     initialize_params {
       image = "ubuntu-2004-focal-v20200720"
@@ -153,7 +149,6 @@ resource "google_compute_instance" "workers" {
     pod-cidr = "10.200.0.0/24"
   }
     
-    
   metadata_startup_script = <<-EOF
               #!/bin/bash    
               sudo apt-get update -y
@@ -168,3 +163,30 @@ resource "google_compute_instance" "workers" {
     scopes = ["compute-rw", "storage-ro", "service-management", "service-control", "logging-write", "monitoring"]
   }
 }
+
+# create ansible host file 
+resource "null_resource" "ansible-host" {
+
+ triggers  = {
+    key = "${uuid()}"
+  }
+
+  provisioner "local-exec" {
+      command = "rm -rf ~/.ssh/known_hosts"
+  }
+
+  provisioner "local-exec" {
+        command = <<EOD
+cat <<EOF > /etc/ansible/hosts
+[all] 
+${google_compute_instance.controllers.network_interface.0.access_config.0.nat_ip}
+${google_compute_instance.workers.network_interface.0.access_config.0.nat_ip}
+[kube_master]
+${google_compute_instance.controllers.network_interface.0.access_config.0.nat_ip}
+[kube_minions]
+${google_compute_instance.workers.network_interface.0.access_config.0.nat_ip}
+EOF
+EOD
+  }
+
+ }

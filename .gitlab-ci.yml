@@ -60,43 +60,43 @@ build-gcp:
   tags:
     - banuka-gcp-k8s-hard-way
 
-# restart-sshd:
-#   stage: BUILD-INFRASTRUCTURE
-#   resource_group: build
-#   script:
-#     - pwd
-#     - export ANSIBLE_HOST_KEY_CHECKING=False
-#     - |
-#       string="StrictHostKeyChecking no"
-#       file=/etc/ssh/ssh_config
+restart-sshd:
+  stage: BUILD-INFRASTRUCTURE
+  resource_group: build
+  script:
+    - pwd
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - |
+      string="StrictHostKeyChecking no"
+      file=/etc/ssh/ssh_config
 
-#       grep -qwi "$string$" "$file" && \
-#       sed -i "s,\(^[^[:alnum:]]*\)\($string$\),\2,i" "$file" || \
-#       sudo echo "$string" >> "$file"
+      grep -qwi "$string$" "$file" && \
+      sed -i "s,\(^[^[:alnum:]]*\)\($string$\),\2,i" "$file" || \
+      sudo echo "$string" >> "$file"
 
-#     - cat /etc/ssh/ssh_config
-#     - mkdir -p /etc/ansible && touch /etc/ansible/hosts
-#     - cat /etc/ansible/hosts
-#     - cd ~/.ssh
-#     - service sshd restart
-#     - ls
-#   tags:
-#     - banuka-gcp-k8s-hard-way
+    - cat /etc/ssh/ssh_config
+    - mkdir -p /etc/ansible && touch /etc/ansible/hosts
+    - cat /etc/ansible/hosts
+    - cd ~/.ssh
+    - service sshd restart
+    - ls
+  tags:
+    - banuka-gcp-k8s-hard-way
 
-# ansible-ping-test:
-#   stage: CONFIG-ANSIBLE
-#   resource_group: ansible
-#   retry:
-#     max: 2
-#     when:
-#       - always
-#   script:
-#     - ansible -m ping all
-#     - ls
-#   when: delayed
-#   start_in: 55 seconds
-#   tags:
-#     - banuka-gcp-k8s-hard-way
+ansible-ping-test:
+  stage: CONFIG-ANSIBLE
+  resource_group: ansible
+  retry:
+    max: 2
+    when:
+      - always
+  script:
+    - ansible -m ping all
+    - ls
+  when: delayed
+  start_in: 55 seconds
+  tags:
+    - banuka-gcp-k8s-hard-way
 
 # ansible-playbooks:
 #   stage: CONFIG-ANSIBLE
