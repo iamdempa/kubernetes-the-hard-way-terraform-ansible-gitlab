@@ -98,22 +98,22 @@ ansible-ping-test:
   tags:
     - banuka-gcp-k8s-hard-way
 
-# ansible-playbooks:
-#   stage: CONFIG-ANSIBLE
-#   resource_group: ansible
-#   retry:
-#     max: 2
-#     when:
-#       - always
-#   script:
-#     - echo "ansible"
-#     - ansible-playbook ./ansible-playbooks/kubernetes/master_and_minions.yaml
-#     - ansible-playbook ./ansible-playbooks/kubernetes/master.yaml
-#     - ansible-playbook ./ansible-playbooks/kubernetes/join_master_and_hosts.yaml
-#   when: delayed
-#   start_in: 1 minutes
-#   tags:
-#     - banuka-gcp-k8s-hard-way
+ansible-playbooks:
+  stage: CONFIG-ANSIBLE
+  resource_group: ansible
+  retry:
+    max: 2
+    when:
+      - always
+  script:
+    - echo "ansible"
+    - ansible-playbook ./ansible-playbooks/1_ca/ca.yaml
+    # - ansible-playbook ./ansible-playbooks/kubernetes/master.yaml
+    # - ansible-playbook ./ansible-playbooks/kubernetes/join_master_and_hosts.yaml
+  when: delayed
+  start_in: 1 minutes
+  tags:
+    - banuka-gcp-k8s-hard-way
 
 # destroy_if_failed:
 #   stage: DESTROY

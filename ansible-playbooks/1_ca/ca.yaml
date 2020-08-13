@@ -7,3 +7,8 @@
       copy:
         src: "/etc/ansible/hosts"
         dest: "/root/machan.txt"
+
+    - name: Create the ca.pem & ca-key.pem
+      become: true
+      shell: |
+        cfssl gencert -initca ca-csr.json | cfssljson -bare ca       
