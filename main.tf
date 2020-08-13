@@ -79,6 +79,7 @@ resource "google_compute_instance" "controllers" {
   name         = "controller-0"
   machine_type = "e2-standard-2"
   zone         = var.zone
+  address_type = "EXTERNAL"
 
   can_ip_forward = true
 
