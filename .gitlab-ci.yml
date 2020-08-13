@@ -51,7 +51,7 @@ install-terraform:
 
 build-gcp:
   stage: BUILD-INFRASTRUCTURE
-  resource_group: build
+  # resource_group: build
   script:
     - echo "" > ~/.ssh/known_hosts
     - terraform init
@@ -62,7 +62,9 @@ build-gcp:
 
 restart-sshd:
   stage: BUILD-INFRASTRUCTURE
-  resource_group: build
+  needs:
+    - job: build-gcp
+  # resource_group: build
   script:
     - pwd
     - export ANSIBLE_HOST_KEY_CHECKING=False
@@ -83,7 +85,7 @@ restart-sshd:
   tags:
     - banuka-gcp-k8s-hard-way
 
-    
+
 ansible-ping-test:
   stage: CONFIG-ANSIBLE
   resource_group: ansible
