@@ -23,7 +23,6 @@ create-ssh-key-pair:
       fi
     - echo $PUBLICKEYNEW > ~/.ssh/gitlabnew.pub
     - chmod 400 ~/.ssh/gitlabnew.pub
-    - cat ~/.ssh/gitlabnew.pub >> ~/.ssh/authorized_keys
   tags:
     - banuka-gcp-k8s-hard-way
 
@@ -50,16 +49,16 @@ install-terraform:
   tags:
     - banuka-gcp-k8s-hard-way
 
-# build-gcp:
-#   stage: BUILD-INFRASTRUCTURE
-#   resource_group: build
-#   script:
-#     - echo "" > ~/.ssh/known_hosts
-#     - terraform init
-#     - terraform plan
-#     - terraform apply --auto-approve
-#   tags:
-#     - banuka-gcp-k8s-hard-way
+build-gcp:
+  stage: BUILD-INFRASTRUCTURE
+  resource_group: build
+  script:
+    - echo "" > ~/.ssh/known_hosts
+    - terraform init
+    - terraform plan
+    - terraform apply --auto-approve
+  tags:
+    - banuka-gcp-k8s-hard-way
 
 # restart-sshd:
 #   stage: BUILD-INFRASTRUCTURE
