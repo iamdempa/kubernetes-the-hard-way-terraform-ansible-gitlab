@@ -6,6 +6,7 @@ stages:
 
   - DESTROY
 
+
 create-ssh-key-pair:
   stage: PREREQUISITES
   resource_group: prerequisites
