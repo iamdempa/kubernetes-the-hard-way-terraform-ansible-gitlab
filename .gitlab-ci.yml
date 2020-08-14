@@ -106,7 +106,7 @@ Create-Certificates:
     when:
       - always
   script:
-    - echo "ansible"
+    - echo "Executing ansible playbooks"
     - ansible-playbook ./ansible-playbooks/1_ca/1_ca.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/2_admin.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/3_kubelet.yaml
