@@ -3,7 +3,7 @@
   connection: local
   tasks:
     
-    - name: Create worker-*.pem & worker-*-key.pem
+    - name: Create worker-*.pem & worker-*-key.pem for kubelet
       # become: true
       shell: |
         EXTERNAL_IP=$(gcloud compute instances describe worker-0 \
