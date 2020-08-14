@@ -178,8 +178,6 @@ resource "null_resource" "ansible-host" {
   provisioner "local-exec" {
         command = <<EOD
 cat <<EOF > /etc/ansible/hosts
-[localhost]
-127.0.0.1
 [all] 
 ${google_compute_instance.controllers.network_interface.0.access_config.0.nat_ip}
 ${google_compute_instance.workers.network_interface.0.access_config.0.nat_ip}
