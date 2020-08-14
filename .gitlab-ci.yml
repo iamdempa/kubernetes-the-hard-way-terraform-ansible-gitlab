@@ -2,6 +2,8 @@ stages:
   - PREREQUISITES
   - BUILD-INFRASTRUCTURE
   - restart-sshd
+  - test-ansible
+  - ansible-play-books
   - CONFIG-ANSIBLE
   - MONITORING
 
@@ -84,8 +86,7 @@ restart-sshd:
 
 
 ansible-ping-test:
-  stage: CONFIG-ANSIBLE
-  resource_group: ansible
+  stage: test-ansible
   retry:
     max: 2
     when:
@@ -99,8 +100,7 @@ ansible-ping-test:
     - banuka-gcp-k8s-hard-way
 
 Create-Certificates:
-  stage: CONFIG-ANSIBLE
-  resource_group: ansible
+  stage: ansible-play-books
   retry:
     max: 2
     when:
