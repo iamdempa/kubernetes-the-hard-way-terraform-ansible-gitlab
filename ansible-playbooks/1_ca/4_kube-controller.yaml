@@ -5,7 +5,7 @@
     - name: Create kube-controller-manager.pem &kube-controller-manager-key.pem
       become: true
       shell: |
-        cat > kube-controller-manager-csr.json << EOF
+        cat > kube-controller-manager-csr.json <<EOF
         {
           "CN": "system:kube-controller-manager",
           "key": {
@@ -22,7 +22,7 @@
             }
           ]
         }
-        EOF
+        EOF        
 
     - name: Generate certs
       become: true
