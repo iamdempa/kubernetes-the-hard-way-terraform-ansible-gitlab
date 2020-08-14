@@ -1,6 +1,6 @@
 ---
-- hosts: 127.0.0.1
-  connection: local
+- hosts: localhost
+  # connection: local
   tasks:
     - name: Create kube-controller-manager.pem &kube-controller-manager-key.pem
       # become: true
