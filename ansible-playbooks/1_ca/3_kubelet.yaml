@@ -3,7 +3,7 @@
   connection: local
   tasks:
     
-    - name: Create admin.pem & admin-key.pem
+    - name: Create worker-*.pem & worker-*-key.pem
       # become: true
       shell: |
         EXTERNAL_IP=$(gcloud compute instances describe worker-0 \
