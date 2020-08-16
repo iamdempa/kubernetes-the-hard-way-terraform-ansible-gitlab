@@ -124,6 +124,7 @@ Create-Certificates:
       - always
   script:
     - echo "Executing ansible playbooks for generating certficates"
+    - ansible-playbook ./ansible-playbooks/1_ca/1_ca.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/2_admin.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/3_kubelet.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/4_kube-controller.yaml
