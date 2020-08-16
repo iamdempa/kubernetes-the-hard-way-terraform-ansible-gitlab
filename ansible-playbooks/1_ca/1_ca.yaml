@@ -7,8 +7,6 @@
         dest: ca-csr.json
         content: '{"CN":"Kubernetes","key":{"algo":"rsa","size":2048},"names":[{"C":"US","L":"Portland","O":"Kubernetes","OU":"CA","ST":"Oregon"}]}'
 
-
-
     - name: Create ca-config.json
       become: true
       copy:

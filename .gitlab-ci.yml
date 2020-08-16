@@ -95,8 +95,8 @@ ansible-ping-test:
   script:
     - ansible -m ping all
     - ls
-  # when: delayed
-  # start_in: 55 seconds
+  when: delayed
+  start_in: 10 seconds
   tags:
     - banuka-gcp-k8s-hard-way
 

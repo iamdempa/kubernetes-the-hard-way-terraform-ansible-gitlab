@@ -1,0 +1,23 @@
+---
+- hosts: kube_minions
+  tasks:
+    - name: Copy worker-0.kubeconfig kube-proxy.kubeconfig to minions 
+      become: true
+      copy:
+        src: "{{ item }}"
+        dest: "/root/"
+      with_items:
+        - worker-0.kubeconfig
+        - kube-proxy.kubeconfig   
+
+- hosts: kube_master
+  tasks:
+    - name: Copy admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig to minions
+      become: true
+      copy:
+        src: "{{ item }}"
+        dest: "/root/"
+      with_items:
+        - admin.kubeconfig
+        - kube-controller-manager.kubeconfig 
+        - kube-scheduler.kubeconfig      
