@@ -109,8 +109,8 @@ Install-client-tools:
       - always
   script:
     - echo "Executing ansible playbooks for installing prerequisites client tools"
-    - ansible-playbook ./ansible-playbooks/0_client_tools/cfssl.yaml 
-    - ansible-playbook ./ansible-playbooks/0_client_tools/2_kubectl.yaml
+    - ansible-playbook ./ansible-playbooks/cfssl.yaml 
+    - ansible-playbook ./ansible-playbooks/2_kubectl.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
@@ -124,15 +124,15 @@ Create-Certificates:
       - always
   script:
     - echo "Executing ansible playbooks for generating certficates"
-    - ansible-playbook ./ansible-playbooks/1_ca/1_ca.yaml
-    - ansible-playbook ./ansible-playbooks/1_ca/2_admin.yaml
-    - ansible-playbook ./ansible-playbooks/1_ca/3_kubelet.yaml
-    - ansible-playbook ./ansible-playbooks/1_ca/4_kube-controller.yaml
-    - ansible-playbook ./ansible-playbooks/1_ca/5_kube-proxy.yaml
-    - ansible-playbook ./ansible-playbooks/1_ca/6_kube-scheduler.yaml
-    - ansible-playbook ./ansible-playbooks/1_ca/7_kube-api-server.yaml
-    - ansible-playbook ./ansible-playbooks/1_ca/8_service-account.yaml
-    - ansible-playbook ./ansible-playbooks/1_ca/9_distribute-client-server-cert.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca.yaml
+    - ansible-playbook ./ansible-playbooks/2_admin.yaml
+    - ansible-playbook ./ansible-playbooks/3_kubelet.yaml
+    - ansible-playbook ./ansible-playbooks/4_kube-controller.yaml
+    - ansible-playbook ./ansible-playbooks/5_kube-proxy.yaml
+    - ansible-playbook ./ansible-playbooks/6_kube-scheduler.yaml
+    - ansible-playbook ./ansible-playbooks/7_kube-api-server.yaml
+    - ansible-playbook ./ansible-playbooks/8_service-account.yaml
+    - ansible-playbook ./ansible-playbooks/9_distribute-client-server-cert.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
@@ -147,12 +147,12 @@ Create-Config-Files:
       - always
   script:
     - echo "Executing ansible playbooks for generating config files"
-    - ansible-playbook ./ansible-playbooks/2_config_files/1_kubeconfig_for_workers.yaml
-    - ansible-playbook ./ansible-playbooks/2_config_files/2_kube-proxy.yaml
-    - ansible-playbook ./ansible-playbooks/2_config_files/3_kube-controller-manager.yaml
-    - ansible-playbook ./ansible-playbooks/2_config_files/4_kube-scheduler.yaml
-    - ansible-playbook ./ansible-playbooks/2_config_files/5_admin.yaml
-    - ansible-playbook ./ansible-playbooks/2_config_files/6_distribute-client-server-cert.yaml
+    - ansible-playbook ./ansible-playbooks/1_kubeconfig_for_workers.yaml
+    - ansible-playbook ./ansible-playbooks/2_kube-proxy.yaml
+    - ansible-playbook ./ansible-playbooks/3_kube-controller-manager.yaml
+    - ansible-playbook ./ansible-playbooks/4_kube-scheduler.yaml
+    - ansible-playbook ./ansible-playbooks/5_admin.yaml
+    - ansible-playbook ./ansible-playbooks/6_distribute-client-server-cert.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
