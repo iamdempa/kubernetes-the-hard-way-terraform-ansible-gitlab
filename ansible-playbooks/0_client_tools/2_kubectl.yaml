@@ -8,7 +8,8 @@
         dest: /tmp
 
 
-    - name: Changing perm of "cfssljson", adding "+x"
+    - name: Changing perm of "kubectl", adding "+x"
+      become: root
       file:
         dest: /tmp/kubectl
         mode: +x
@@ -16,5 +17,11 @@
     - name: Moving kubectl to /usr/local/bin/
       become: true
       copy: src=/tmp/kubectl dest=/usr/local/bin/
+
+    - name: Changing perm of "kubectl", adding "+x"
+      become: root
+      file:
+        dest: /usr/local/bin/kubectl
+        mode: +x      
      
     
