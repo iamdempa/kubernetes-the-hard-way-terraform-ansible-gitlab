@@ -1,0 +1,36 @@
+---
+- hosts: 127.0.0.1
+  tasks:
+    - name: Create encryption-config.yaml
+      become: true
+      shell: |
+        ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
+        kind: EncryptionConfig
+        apiVersion: v1
+        resources:
+          - resources:
+              - secrets
+            providers:
+              - aescbc:
+                  keys:
+                    - name: key1
+                      secret: ${ENCRYPTION_KEY}
+              - identity: {}
+
+    - name: Generate certs
+      become: true
+      shell: |
+        cfssl gencert \
+        -ca=ca.pem \
+        -ca-key=ca-key.pem \
+        -config=ca-config.json \
+        -profile=kubernetes \
+        service-account-csr.json | cfssljson -bare service-account
+
+- hosts: kube_master
+  tasks:
+    - name: Copy encryption-config.yaml to master
+      become: true
+      copy:
+        src: encryption-config.yaml
+        dest: "/root/"       
