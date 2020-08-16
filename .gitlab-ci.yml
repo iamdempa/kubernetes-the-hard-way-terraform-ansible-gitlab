@@ -10,6 +10,7 @@ stages:
   - ansible-play-books-create-config-files
   - ansible-play-books-data-encryption
   - bootstrap-etcd
+  - bootstrap-control-plane
   - CONFIG-ANSIBLE
   - MONITORING
 
@@ -191,6 +192,20 @@ Bootstrap-etcd:
   tags:
     - banuka-gcp-k8s-hard-way   
 
+
+
+Bootstrap-control-plane:
+  stage: bootstrap-control-plane
+  retry:
+    max: 2
+    when:
+      - always
+  script:
+    - echo "Executing ansible playbooks for Bootsraping Conrol Plane"
+    - ansible-playbook ./ansible-playbooks/r_bootstrap-control-plane.yaml
+    - ansible-playbook ./ansible-playbooks/s_http-health-checks.yaml
+  tags:
+    - banuka-gcp-k8s-hard-way   
 
 
 # destroy_if_failed:

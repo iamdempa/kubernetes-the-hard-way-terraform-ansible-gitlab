@@ -20,6 +20,7 @@
         dest: "/root/"
       with_items:
         - ca.pem
+        - ca-key.pem
         - kubernetes-key.pem 
         - kubernetes.pem
         - service-account-key.pem
