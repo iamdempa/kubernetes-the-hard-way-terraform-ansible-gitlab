@@ -5,7 +5,8 @@ stages:
   - BUILD-INFRASTRUCTURE
   - restart-sshd
   - test-ansible
-  - ansible-play-books
+  - ansible-play-books-create-certs
+  - ansible-play-books-create-config-files
   - CONFIG-ANSIBLE
   - MONITORING
 
@@ -99,13 +100,13 @@ ansible-ping-test:
     - banuka-gcp-k8s-hard-way
 
 Create-Certificates:
-  stage: ansible-play-books
+  stage: ansible-play-books-create-certs
   retry:
     max: 2
     when:
       - always
   script:
-    - echo "Executing ansible playbooks"
+    - echo "Executing ansible playbooks for generating certficates"
     - ansible-playbook ./ansible-playbooks/1_ca/1_ca.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/2_admin.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/3_kubelet.yaml
@@ -118,7 +119,22 @@ Create-Certificates:
   # when: delayed
   # start_in: 1 minutes
   tags:
-    - banuka-gcp-k8s-hard-way
+    - banuka-gcp-k8s-hard-way 
+
+
+Create-Config-Files:
+  stage: ansible-play-books-create-config-files
+  retry:
+    max: 2
+    when:
+      - always
+  script:
+    - echo "Executing ansible playbooks for generating config files"
+    - ansible-playbook ./ansible-playbooks/2_config_files/1_kubeconfig_for_workers.yaml
+  # when: delayed
+  # start_in: 1 minutes
+  tags:
+    - banuka-gcp-k8s-hard-way    
 
 # destroy_if_failed:
 #   stage: DESTROY
