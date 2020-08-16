@@ -20,20 +20,10 @@
               - identity: {}
         EOF
 
-    - name: Generate certs
-      become: true
-      shell: |
-        cfssl gencert \
-        -ca=ca.pem \
-        -ca-key=ca-key.pem \
-        -config=ca-config.json \
-        -profile=kubernetes \
-        service-account-csr.json | cfssljson -bare service-account
-
 - hosts: kube_master
   tasks:
     - name: Copy encryption-config.yaml to master
       become: true
       copy:
         src: encryption-config.yaml
-        dest: "/root/"       
+        dest: "/root/"
