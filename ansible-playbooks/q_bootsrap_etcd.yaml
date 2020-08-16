@@ -1,5 +1,4 @@
 ---
----
 - hosts: all
   tasks:
     - name: Copy public and private ips to all the nodes
@@ -34,6 +33,7 @@
         sudo mkdir -p /etc/etcd /var/lib/etcd
         sudo chmod 700 /var/lib/etcd
         sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/
+
         INTERNAL_IP=$(cat /tmp/master-private)   
         ETCD_NAME=$(hostname -s)
 
