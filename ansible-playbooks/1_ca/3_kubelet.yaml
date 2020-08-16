@@ -3,6 +3,12 @@
   connection: local
   tasks:
     
+    - name: Create worker-0-csr.json
+      become: true
+      copy:
+        dest: worker-0-csr.json
+        content: '{"CN":"system:node:worker-0","key":{"algo":"rsa","size":2048},"names":[{"C":"US","L":"Portland","O":"system:nodes","OU":"Kubernetes The Hard Way","ST":"Oregon"}]}'
+
     - name: Create worker-*.pem & worker-*-key.pem for kubelet
       # become: true
       shell: |
