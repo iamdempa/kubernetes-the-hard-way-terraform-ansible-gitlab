@@ -5,6 +5,7 @@ stages:
   - BUILD-INFRASTRUCTURE
   - restart-sshd
   - test-ansible
+  - ansible-play-books-client-tools
   - ansible-play-books-create-certs
   - ansible-play-books-create-config-files
   - CONFIG-ANSIBLE
@@ -99,6 +100,22 @@ ansible-ping-test:
   tags:
     - banuka-gcp-k8s-hard-way
 
+
+Install-client-tools:
+  stage: ansible-play-books-client-tools
+  retry:
+    max: 2
+    when:
+      - always
+  script:
+    - echo "Executing ansible playbooks for installing prerequisites client tools"
+    - ansible-playbook ./ansible-playbooks/0_client_tools/1_ca.yaml 
+    - nsible-playbook ./ansible-playbooks/0_client_tools/2_kubectl.yaml
+  # when: delayed
+  # start_in: 1 minutes
+  tags:
+    - banuka-gcp-k8s-hard-way 
+
 Create-Certificates:
   stage: ansible-play-books-create-certs
   retry:
@@ -107,7 +124,6 @@ Create-Certificates:
       - always
   script:
     - echo "Executing ansible playbooks for generating certficates"
-    - ansible-playbook ./ansible-playbooks/1_ca/1_ca.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/2_admin.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/3_kubelet.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/4_kube-controller.yaml

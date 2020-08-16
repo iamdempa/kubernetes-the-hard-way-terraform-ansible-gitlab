@@ -1,0 +1,20 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: Download kubectl
+      get_url:
+        url: "wget https://storage.googleapis.com/kubernetes-release/release/v1.18.6/bin/linux/amd64/kubectl"
+        dest: /tmp
+
+
+    - name: Changing perm of "cfssljson", adding "+x"
+      file:
+        dest: /tmp/kubectl
+        mode: +x
+
+    - name: Moving kubectl to /usr/local/bin/
+      become: true
+      copy: src=/tmp/kubectl dest=/usr/local/bin/
+     
+    
