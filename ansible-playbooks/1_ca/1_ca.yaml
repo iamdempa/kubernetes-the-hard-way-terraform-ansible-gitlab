@@ -2,8 +2,36 @@
 - hosts: 127.0.0.1
   connection: local
   tasks:
+    - name: Install cfssl
+      get_url:
+        url: "https://storage.googleapis.com/kubernetes-the-hard-way/cfssl/1.4.1/linux/cfssl"
+        dest: /tmp
+
+    - name: Install cfssljson
+      get_url:
+        url: "https://storage.googleapis.com/kubernetes-the-hard-way/cfssl/1.4.1/linux/cfssljson"
+        dest: /tmp
+
+
+    - name: Copying cfssl & cfssljson to /usr/local/bin/
+      become: true
+      copy: src=/tmp/{{ item }} dest=/usr/local/bin/
+      with_items:
+        - cfssl
+        - cfssljson
+
+    - name: Changing perm of "cfssl", adding "+x"
+      file:
+        dest: /usr/local/bin/cfssl
+        mode: +x        
+
+    - name: Changing perm of "cfssljson", adding "+x"
+      file:
+        dest: /usr/local/bin/cfssljson
+        mode: +x
 
     - name: Create the ca.pem & ca-key.pem
       # become: true
       shell: |
         cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+
