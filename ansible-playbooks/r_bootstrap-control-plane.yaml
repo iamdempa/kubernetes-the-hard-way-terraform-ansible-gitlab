@@ -32,7 +32,18 @@
     - name: move the binaries to usr/loca/bin
       become: true
       shell: |
-        sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
+        sudo mv /tmp/kube-apiserver /tmp/kube-controller-manager /tmp/kube-scheduler /tmp/kubectl /usr/local/bin/
+
+    - name: Changing perm of binaries, adding "+x"
+      become: true
+      file:
+        dest: "{{ item }}"
+        mode: +x  
+      with_items:
+        - /usr/local/bin/kube-apiserver
+        - /usr/local/bin/kube-controller-manager
+        - /usr/local/bin/kube-scheduler
+        - /usr/local/bin/kubectl        
         
     - name: Configure the Kubernetes API Server
       become: true
