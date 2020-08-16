@@ -6,16 +6,16 @@
       become: true
       shell: |
         KUBERNETES_PUBLIC_ADDRESS=$(cat /tmp/lb-address)
-        
+
         kubectl config set-cluster kubernetes-the-hard-way \
-        --certificate-authority=ca.pem \
+        --certificate-authority=../1_ca/ca.pem \
         --embed-certs=true \
         --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
         --kubeconfig=kube-proxy.kubeconfig
 
         kubectl config set-credentials system:kube-proxy \
-          --client-certificate=kube-proxy.pem \
-          --client-key=kube-proxy-key.pem \
+          --client-certificate=../1_ca/kube-proxy.pem \
+          --client-key=k../1_ca/ube-proxy-key.pem \
           --embed-certs=true \
           --kubeconfig=kube-proxy.kubeconfig
 
