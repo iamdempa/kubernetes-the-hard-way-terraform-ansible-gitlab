@@ -1,6 +1,5 @@
 ---
-- hosts: localhost
-  # connection: local
+- hosts: 127.0.0.1
   tasks:
     - name: Copy kube-scheduler-key.pem & kube-scheduler.pem
       become: true

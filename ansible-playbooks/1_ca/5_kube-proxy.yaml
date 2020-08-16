@@ -1,6 +1,5 @@
 ---
-- hosts: localhost
-  # connection: local
+- hosts: 127.0.0.1
   tasks:
     - name: Copy kube-proxy-key.pem & kube-proxy.pem
       become: true
