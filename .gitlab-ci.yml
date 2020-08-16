@@ -110,7 +110,7 @@ Install-client-tools:
   script:
     - echo "Executing ansible playbooks for installing prerequisites client tools"
     - ansible-playbook ./ansible-playbooks/0_client_tools/cfssl.yaml 
-    - nsible-playbook ./ansible-playbooks/0_client_tools/2_kubectl.yaml
+    - ansible-playbook ./ansible-playbooks/0_client_tools/2_kubectl.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
