@@ -1,0 +1,26 @@
+---
+- hosts: kube_minions
+  tasks:
+    - name: Copy ca.pem worker-0-key.pem worker-0.pem to minions
+      become: true
+      copy:
+        src: "{{ item }}"
+        dest: "/root/"
+      with_items:
+        - ca.pem
+        - worker-0-key.pem
+        - worker-0.pem     
+
+- hosts: kube_master
+  tasks:
+    - name: Copy ca.pem worker-0-key.pem worker-0.pem to minions
+      become: true
+      copy:
+        src: "{{ item }}"
+        dest: "/root/"
+      with_items:
+        - ca.pem
+        - kubernetes-key.pem 
+        - kubernetes.pem
+        - service-account-key.pem
+        - service-account.pem        
