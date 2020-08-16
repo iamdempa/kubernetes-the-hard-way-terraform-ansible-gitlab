@@ -17,20 +17,24 @@
 - hosts: kube_master
   tasks:
     - name: Download etcd
+      become: true
       get_url:
         url: "https://github.com/etcd-io/etcd/releases/download/v3.4.10/etcd-v3.4.10-linux-amd64.tar.gz"
-        dest: /tmp
+        dest: /
 
     - name: tar etcd
+      become: true
       unarchive:
-        src: /tmp/etcd-v3.4.10-linux-amd64.tar.gz
-        dest: /tmp
+        src: etcd-v3.4.10-linux-amd64.tar.gz
+        dest: /
 
     - name: move etcd to /usr/local/bin/
+      become: true
       shell: |
-        sudo mv /tmp/etcd-v3.4.10-linux-amd64/etcd* /usr/local/bin/ 
+        sudo mv /root/etcd-v3.4.10-linux-amd64/etcd* /usr/local/bin/ 
 
     - name: Configure etcd
+      become: true
       shell: |
         sudo mkdir -p /etc/etcd /var/lib/etcd
         sudo chmod 700 /var/lib/etcd
