@@ -148,6 +148,11 @@ Create-Config-Files:
   script:
     - echo "Executing ansible playbooks for generating config files"
     - ansible-playbook ./ansible-playbooks/2_config_files/1_kubeconfig_for_workers.yaml
+    - ansible-playbook ./ansible-playbooks/2_config_files/2_kube-proxy.yaml
+    - ansible-playbook ./ansible-playbooks/2_config_files/3_kube-controller-manager.yaml
+    - ansible-playbook ./ansible-playbooks/2_config_files/4_kube-scheduler.yaml
+    - ansible-playbook ./ansible-playbooks/2_config_files/5_admin.yaml
+    - ansible-playbook ./ansible-playbooks/2_config_files/6_distribute-client-server-cert.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
