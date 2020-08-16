@@ -69,6 +69,12 @@ resource "google_compute_firewall" "kubernetes-the-hard-way-allow-external" {
 }
 
 
+# create an External IP address Load Balancer
+resource "google_compute_address" "kubernetes-the-hard-way" {
+  name = "kubernetes-the-hard-way"
+}
+
+
 # master node/s
 resource "google_compute_instance" "controllers" {
   name         = "controller-0"
@@ -214,4 +220,17 @@ EOF
 EOD
   }
 
+   provisioner "local-exec" {
+        command = <<EOD
+cat <<EOF > /tmp/lb-address
+${google_compute_address.kubernetes-the-hard-way.address}
+EOF
+EOD
+  }
+
  }
+
+
+output "LB IP address" {
+  value = google_compute_address.kubernetes-the-hard-way.address
+}

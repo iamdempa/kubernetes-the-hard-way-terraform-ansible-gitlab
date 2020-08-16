@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  # connection: local
+  tasks:
+    - name: Copy kube-proxy-key.pem & kube-proxy.pem
+      become: true
+      copy:
+        dest: kube-proxy-csr.json
+        content: '{"CN":"system:kube-proxy","key":{"algo":"rsa","size":2048},"names":[{"C":"US","L":"Portland","O":"system:node-proxier","OU":"Kubernetes The Hard Way","ST":"Oregon"}]}'
+
+    - name: Generate certs
+      become: true
+      shell: |
+        cfssl gencert \
+        -ca=ca.pem \
+        -ca-key=ca-key.pem \
+        -config=ca-config.json \
+        -profile=kubernetes \
+        kube-proxy-csr.json | cfssljson -bare kube-proxy
