@@ -112,6 +112,9 @@ Create-Certificates:
     - ansible-playbook ./ansible-playbooks/1_ca/4_kube-controller.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/5_kube-proxy.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/6_kube-scheduler.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca/7_kube-api-server.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca/8_kube-service-account.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca/9_distribute-client-server-cert.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
