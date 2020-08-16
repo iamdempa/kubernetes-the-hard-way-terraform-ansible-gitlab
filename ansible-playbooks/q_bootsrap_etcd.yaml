@@ -27,7 +27,7 @@
       unarchive:
         src: "https://github.com/etcd-io/etcd/releases/download/v3.4.10/etcd-v3.4.10-linux-amd64.tar.gz"
         dest: /root
-      remote_src: yes  
+        remote_src: yes  
 
     - name: move etcd to /usr/local/bin/
       become: true
