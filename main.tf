@@ -231,6 +231,6 @@ EOD
  }
 
 
-output "LB IP address" {
+output "LB_IP_address" {
   value = google_compute_address.kubernetes-the-hard-way.address
 }
