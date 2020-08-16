@@ -1,5 +1,7 @@
 stages:
-  - PREREQUISITES
+  - create-ssh-key-pair
+  - check-prerequisites
+  - install-terraform
   - BUILD-INFRASTRUCTURE
   - restart-sshd
   - test-ansible
@@ -11,8 +13,7 @@ stages:
 
 
 create-ssh-key-pair:
-  stage: PREREQUISITES
-  resource_group: prerequisites
+  stage: create-ssh-key-pair
   script:
     - pwd
     - mkdir -p ~/.ssh
@@ -30,8 +31,7 @@ create-ssh-key-pair:
     - banuka-gcp-k8s-hard-way
 
 check-prerequisites:
-  stage: PREREQUISITES
-  resource_group: prerequisites
+  stage: check-prerequisites
   script:
     - echo "hi"
     - yum update --exclude=google-cloud-sdk -y && sudo yum install wget unzip -y
@@ -39,8 +39,7 @@ check-prerequisites:
     - banuka-gcp-k8s-hard-way
 
 install-terraform:
-  stage: PREREQUISITES
-  resource_group: prerequisites
+  stage: install-terraform
   script:
     - export VER="0.13.0-beta3"
     - wget https://releases.hashicorp.com/terraform/${VER}/terraform_${VER}_linux_amd64.zip
