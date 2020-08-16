@@ -111,6 +111,7 @@ resource "google_compute_instance" "controllers" {
   }
 }
 
+
 # worker node/s
 resource "google_compute_instance" "workers" {
   name         = "worker-0"
