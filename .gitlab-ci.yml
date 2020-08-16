@@ -110,6 +110,8 @@ Create-Certificates:
     - ansible-playbook ./ansible-playbooks/1_ca/2_admin.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/3_kubelet.yaml
     - ansible-playbook ./ansible-playbooks/1_ca/4_kube-controller.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca/5_kube-proxy.yaml
+    - ansible-playbook ./ansible-playbooks/1_ca/6_kube-scheduler.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
