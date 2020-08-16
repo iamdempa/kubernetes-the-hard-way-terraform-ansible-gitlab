@@ -185,6 +185,9 @@ provisioner "local-exec" {
         command = <<EOD
 cat <<EOF > /tmp/master-public
 ${google_compute_instance.controllers.network_interface.0.access_config.0.nat_ip}
+[private]
+${google_compute_instance.controllers.network_interface.0.network_ip}
+${google_compute_instance.controllers.network_interface.network_ip}
 EOF
 EOD
   }
