@@ -134,7 +134,7 @@ Create-Certificates:
     - ansible-playbook ./ansible-playbooks/f_kube-scheduler.yaml
     - ansible-playbook ./ansible-playbooks/g_kube-api-server.yaml
     - ansible-playbook ./ansible-playbooks/h_service-account.yaml
-    - ansible-playbook ./ansible-playbooks/9_distribute-client-server-cert.yaml
+    - ansible-playbook ./ansible-playbooks/i_distribute-client-server-cert.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
