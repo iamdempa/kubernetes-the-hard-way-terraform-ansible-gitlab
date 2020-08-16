@@ -19,16 +19,14 @@
     - name: Download etcd
       get_url:
         url: "https://github.com/etcd-io/etcd/releases/download/v3.4.10/etcd-v3.4.10-linux-amd64.tar.gz"
-        dest: /tmp
+        dest: /tmp/
 
     - name: tar etcd
-      become: true
       shell: |
         tar -xvf /tmp/etcd-v3.4.10-linux-amd64.tar.gz  
         sudo mv /tmp/etcd-v3.4.10-linux-amd64/etcd* /usr/local/bin/ 
 
     - name: Configure etcd
-      become: true
       shell: |
         sudo mkdir -p /etc/etcd /var/lib/etcd
         sudo chmod 700 /var/lib/etcd
