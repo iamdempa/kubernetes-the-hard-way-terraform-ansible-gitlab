@@ -7,8 +7,8 @@
         src: "{{ item }}"
         dest: "/root/"
       with_items:
-        - worker-0.kubeconfig
-        - kube-proxy.kubeconfig   
+        - ../1_ca/worker-0.kubeconfig
+        - ../1_ca/kube-proxy.kubeconfig   
 
 - hosts: kube_master
   tasks:
@@ -18,6 +18,6 @@
         src: "{{ item }}"
         dest: "/root/"
       with_items:
-        - admin.kubeconfig
-        - kube-controller-manager.kubeconfig 
-        - kube-scheduler.kubeconfig      
+        - ../1_ca/admin.kubeconfig
+        - ../1_ca/kube-controller-manager.kubeconfig 
+        - ../1_ca/kube-scheduler.kubeconfig      
