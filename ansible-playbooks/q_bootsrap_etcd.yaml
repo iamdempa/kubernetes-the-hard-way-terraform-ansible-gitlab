@@ -78,6 +78,8 @@
 
     - name: Start the etcd
       become: true
+      pause:
+        seconds: 30
       shell: |
         systemctl daemon-reload
         systemctl enable etcd

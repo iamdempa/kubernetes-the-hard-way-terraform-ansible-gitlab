@@ -186,8 +186,8 @@ Bootstrap-etcd:
   script:
     - echo "Executing ansible playbooks for Bootsraping etcd"
     - ansible-playbook ./ansible-playbooks/q_bootsrap_etcd.yaml
-  # when: delayed
-  # start_in: 1 minutes
+  when: delayed
+  start_in: 1 minutes
   tags:
     - banuka-gcp-k8s-hard-way   
 
