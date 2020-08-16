@@ -185,8 +185,6 @@ provisioner "local-exec" {
         command = <<EOD
 cat <<EOF > /tmp/master-public
 ${google_compute_instance.controllers.network_interface.0.access_config.0.nat_ip}
-[private]
-${google_compute_instance.controllers.network_interface.0.network_ip}
 EOF
 EOD
   }
@@ -200,22 +198,20 @@ EOF
 EOD
   }
 
-#   provisioner "local-exec" {
-#         command = <<EOD
-# cat <<EOF > /tmp/master-private
-# ${google_compute_instance.controllers.network_interface.0.access_config.0.network_ip}
-# EOF
-# EOD
-#   }
+  provisioner "local-exec" {
+        command = <<EOD
+cat <<EOF > /tmp/master-private
+${google_compute_instance.controllers.network_interface.0.network_ip}
+EOF
+EOD
+  }
 
-#     provisioner "local-exec" {
-#         command = <<EOD
-# cat <<EOF > /tmp/worker-private
-# ${google_compute_instance.workers.network_interface.0.access_config.0.network_ip}
-# EOF
-# EOD
-#   }
-
-
+    provisioner "local-exec" {
+        command = <<EOD
+cat <<EOF > /tmp/worker-private
+${google_compute_instance.workers.network_interface.0.network_ip}
+EOF
+EOD
+  }
 
  }
