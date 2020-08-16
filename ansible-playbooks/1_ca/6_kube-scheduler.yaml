@@ -5,7 +5,7 @@
     - name: Copy kube-scheduler-key.pem & kube-scheduler.pem
       become: true
       copy:
-        dest: kube-proxy-csr.json
+        dest: kube-scheduler-csr.json
         content: '{"CN":"system:kube-scheduler","key":{"algo":"rsa","size":2048},"names":[{"C":"US","L":"Portland","O":"system:kube-scheduler","OU":"Kubernetes The Hard Way","ST":"Oregon"}]}'
 
     - name: Generate certs
