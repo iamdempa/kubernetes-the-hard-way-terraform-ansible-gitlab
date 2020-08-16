@@ -8,14 +8,14 @@
         KUBERNETES_PUBLIC_ADDRESS=$(cat /tmp/lb-address)
         
         kubectl config set-cluster kubernetes-the-hard-way \
-        --certificate-authority=../1_ca/ca.pem \
+        --certificate-authority=ca.pem \
         --embed-certs=true \
         --server=https://127.0.0.1:6443 \
         --kubeconfig=kube-scheduler.kubeconfig
 
         kubectl config set-credentials system:kube-scheduler \
-          --client-certificate=../1_ca/kube-scheduler.pem \
-          --client-key=../1_ca/kube-scheduler-key.pem \
+          --client-certificate=kube-scheduler.pem \
+          --client-key=kube-scheduler-key.pem \
           --embed-certs=true \
           --kubeconfig=kube-scheduler.kubeconfig
 
