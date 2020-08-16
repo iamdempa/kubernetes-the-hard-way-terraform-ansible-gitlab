@@ -1,19 +1,18 @@
 ---
-- hosts: localhost
+- hosts: 127.0.0.1
+  connection: local
   tasks:
-    - name: Copy kubernetes-key.pem & kubernetes.pem
+    - name: Generate kubernetes-csr.json
       become: true
       copy:
         dest: kubernetes-csr.json
         content: '{"CN":"kubernetes","key":{"algo":"rsa","size":2048},"names":[{"C":"US","L":"Portland","O":"Kubernetes","OU":"Kubernetes The Hard Way","ST":"Oregon"}]}'
 
-
-    - name: Generate certs
+    - name: Copy kubernetes-key.pem & kubernetes.pem
       become: true
       shell: |
-
         KUBERNETES_PUBLIC_ADDRESS=$(cat /tmp/lb-address)
-        KUBERNETES_HOSTNAMES=kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.svc.cluster.local
+        KUBERNETES_HOSTNAMES="kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.svc.cluster.local"
 
         cfssl gencert \
         -ca=ca.pem \
