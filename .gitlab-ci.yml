@@ -8,6 +8,8 @@ stages:
   - ansible-play-books-client-tools
   - ansible-play-books-create-certs
   - ansible-play-books-create-config-files
+  - ansible-play-books-data-encryption
+  - bootstrap-etcd
   - CONFIG-ANSIBLE
   - MONITORING
 
@@ -109,7 +111,7 @@ Install-client-tools:
       - always
   script:
     - echo "Executing ansible playbooks for installing prerequisites client tools"
-    - ansible-playbook ./ansible-playbooks/cfssl.yaml 
+    - ansible-playbook ./ansible-playbooks/1_cfssl.yaml 
     - ansible-playbook ./ansible-playbooks/2_kubectl.yaml
   # when: delayed
   # start_in: 1 minutes
@@ -124,14 +126,14 @@ Create-Certificates:
       - always
   script:
     - echo "Executing ansible playbooks for generating certficates"
-    - ansible-playbook ./ansible-playbooks/1_ca.yaml
-    - ansible-playbook ./ansible-playbooks/2_admin.yaml
-    - ansible-playbook ./ansible-playbooks/3_kubelet.yaml
-    - ansible-playbook ./ansible-playbooks/4_kube-controller.yaml
-    - ansible-playbook ./ansible-playbooks/5_kube-proxy.yaml
-    - ansible-playbook ./ansible-playbooks/6_kube-scheduler.yaml
-    - ansible-playbook ./ansible-playbooks/7_kube-api-server.yaml
-    - ansible-playbook ./ansible-playbooks/8_service-account.yaml
+    - ansible-playbook ./ansible-playbooks/a_ca.yaml
+    - ansible-playbook ./ansible-playbooks/b_admin.yaml
+    - ansible-playbook ./ansible-playbooks/c_kubelet.yaml
+    - ansible-playbook ./ansible-playbooks/d_kube-controller.yaml
+    - ansible-playbook ./ansible-playbooks/e_kube-proxy.yaml
+    - ansible-playbook ./ansible-playbooks/f_kube-scheduler.yaml
+    - ansible-playbook ./ansible-playbooks/g_kube-api-server.yaml
+    - ansible-playbook ./ansible-playbooks/h_service-account.yaml
     - ansible-playbook ./ansible-playbooks/9_distribute-client-server-cert.yaml
   # when: delayed
   # start_in: 1 minutes
@@ -147,16 +149,49 @@ Create-Config-Files:
       - always
   script:
     - echo "Executing ansible playbooks for generating config files"
-    - ansible-playbook ./ansible-playbooks/1_kubeconfig_for_workers.yaml
-    - ansible-playbook ./ansible-playbooks/2_kube-proxy.yaml
-    - ansible-playbook ./ansible-playbooks/3_kube-controller-manager.yaml
-    - ansible-playbook ./ansible-playbooks/4_kube-scheduler.yaml
-    - ansible-playbook ./ansible-playbooks/5_admin.yaml
-    - ansible-playbook ./ansible-playbooks/6_distribute-client-server-cert.yaml
+    - ansible-playbook ./ansible-playbooks/j_kubeconfig_for_workers.yaml
+    - ansible-playbook ./ansible-playbooks/k_kube-proxy.yaml
+    - ansible-playbook ./ansible-playbooks/l_kube-controller-manager.yaml
+    - ansible-playbook ./ansible-playbooks/m_kube-scheduler.yaml
+    - ansible-playbook ./ansible-playbooks/n_admin.yaml
+    - ansible-playbook ./ansible-playbooks/o_distribute-client-server-cert.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
     - banuka-gcp-k8s-hard-way    
+
+
+    
+Data-encryption:
+  stage: ansible-play-books-data-encryption
+  retry:
+    max: 2
+    when:
+      - always
+  script:
+    - echo "Executing ansible playbooks for data encryption"
+    - ansible-playbook ./ansible-playbooks/p_encryption.yaml
+  # when: delayed
+  # start_in: 1 minutes
+  tags:
+    - banuka-gcp-k8s-hard-way   
+
+
+Bootstrap-etcd:
+  stage: bootstrap-etcd
+  retry:
+    max: 2
+    when:
+      - always
+  script:
+    - echo "Executing ansible playbooks for Bootsraping etcd"
+    - ansible-playbook ./ansible-playbooks/q_bootsrap_etcd.yaml
+  # when: delayed
+  # start_in: 1 minutes
+  tags:
+    - banuka-gcp-k8s-hard-way   
+
+
 
 # destroy_if_failed:
 #   stage: DESTROY
