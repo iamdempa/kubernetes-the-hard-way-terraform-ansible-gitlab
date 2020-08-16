@@ -16,17 +16,18 @@
 
 - hosts: kube_master
   tasks:
-    - name: Download etcd
-      become: true
-      get_url:
-        url: "https://github.com/etcd-io/etcd/releases/download/v3.4.10/etcd-v3.4.10-linux-amd64.tar.gz"
-        dest: /
+    # - name: Download etcd
+    #   become: true
+    #   get_url:
+    #     url: "https://github.com/etcd-io/etcd/releases/download/v3.4.10/etcd-v3.4.10-linux-amd64.tar.gz"
+    #     dest: /
 
-    - name: tar etcd
+    - name: Download and untar etcd binary
       become: true
       unarchive:
-        src: etcd-v3.4.10-linux-amd64.tar.gz
-        dest: /
+        src: "https://github.com/etcd-io/etcd/releases/download/v3.4.10/etcd-v3.4.10-linux-amd64.tar.gz"
+        dest: /root
+      remote_src: yes  
 
     - name: move etcd to /usr/local/bin/
       become: true
