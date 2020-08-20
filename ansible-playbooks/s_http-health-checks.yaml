@@ -52,7 +52,7 @@
     - name: sudo ln
       become: true
       shell: |
-        sudo ln -s /etc/nginx/sites-available/kubernetes.default.svc.cluster.local /etc/nginx/sites-enabled/      
+        sudo ln -sf /etc/nginx/sites-available/kubernetes.default.svc.cluster.local /etc/nginx/sites-enabled/      
 
     - pause:
         seconds: 10
