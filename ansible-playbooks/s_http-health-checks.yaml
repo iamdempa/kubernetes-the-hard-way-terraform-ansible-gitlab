@@ -27,7 +27,6 @@
     - name: Create kubernetes.default.svc.cluster.local for nginx
       become: true
       shell: |
-
         cat > kubernetes.default.svc.cluster.local <<EOF
         server {
           listen      80;
@@ -38,7 +37,7 @@
             proxy_ssl_trusted_certificate /var/lib/kubernetes/ca.pem;
           }
         }
-        EO
+        EOF
         
     - name: Copying kubernetes.default.svc.cluster.local to /var/lib/kubernetes/
       become: true
