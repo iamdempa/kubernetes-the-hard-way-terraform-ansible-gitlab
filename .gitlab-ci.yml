@@ -99,17 +99,17 @@ ansible-ping-test:
     - ansible -m ping all
     - ls
   when: delayed
-  start_in: 10 seconds
+  start_in: 59 seconds
   tags:
     - banuka-gcp-k8s-hard-way
 
 
 Install-client-tools:
   stage: ansible-play-books-client-tools
-  retry:
-    max: 2
-    when:
-      - always
+  # retry:
+  #   max: 2
+  #   when:
+  #     - always
   script:
     - echo "Executing ansible playbooks for installing prerequisites client tools"
     - ansible-playbook ./ansible-playbooks/1_cfssl.yaml 
@@ -121,10 +121,10 @@ Install-client-tools:
 
 Create-Certificates:
   stage: ansible-play-books-create-certs
-  retry:
-    max: 2
-    when:
-      - always
+  # retry:
+  #   max: 2
+  #   when:
+  #     - always
   script:
     - echo "Executing ansible playbooks for generating certficates"
     - ansible-playbook ./ansible-playbooks/a_ca.yaml
@@ -144,10 +144,10 @@ Create-Certificates:
 
 Create-Config-Files:
   stage: ansible-play-books-create-config-files
-  retry:
-    max: 2
-    when:
-      - always
+  # retry:
+  #   max: 2
+  #   when:
+  #     - always
   script:
     - echo "Executing ansible playbooks for generating config files"
     - ansible-playbook ./ansible-playbooks/j_kubeconfig_for_workers.yaml
@@ -165,10 +165,10 @@ Create-Config-Files:
     
 Data-encryption:
   stage: ansible-play-books-data-encryption
-  retry:
-    max: 2
-    when:
-      - always
+  # retry:
+  #   max: 2
+  #   when:
+  #     - always
   script:
     - echo "Executing ansible playbooks for data encryption"
     - ansible-playbook ./ansible-playbooks/p_encryption.yaml
@@ -180,10 +180,10 @@ Data-encryption:
 
 Bootstrap-etcd:
   stage: bootstrap-etcd
-  retry:
-    max: 2
-    when:
-      - always
+  # retry:
+  #   max: 2
+  #   when:
+  #     - always
   script:
     - echo "Executing ansible playbooks for Bootsraping etcd"
     - ansible-playbook ./ansible-playbooks/q_bootsrap_etcd.yaml
@@ -196,10 +196,10 @@ Bootstrap-etcd:
 
 Bootstrap-control-plane:
   stage: bootstrap-control-plane
-  retry:
-    max: 2
-    when:
-      - always
+  # retry:
+  #   max: 2
+  #   when:
+  #     - always
   script:
     - echo "Executing ansible playbooks for Bootsraping Conrol Plane"
     - ansible-playbook ./ansible-playbooks/r_bootstrap-control-plane.yaml
