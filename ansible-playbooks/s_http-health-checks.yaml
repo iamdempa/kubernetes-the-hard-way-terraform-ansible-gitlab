@@ -2,6 +2,11 @@
 - hosts: kube_master
   tasks:
 
+    - name: Installing nginx
+      become: true
+      shell: |
+        echo "Updating"
+
     - name: Update the libraries
       become: true
       apt:
@@ -13,7 +18,7 @@
         name: nginx
         state: present
 
-    - name: Create kubernetes.default.svc.cluster.local
+    - name: Create kubernetes.default.svc.cluster.local for nginx
       become: true
       shell: |
         cat > kubernetes.default.svc.cluster.local <<EOF
@@ -28,7 +33,7 @@
         }
         EOF
 
-        sudo mv kubernetes.default.svc.cluster.local \
+        sudo cp kubernetes.default.svc.cluster.local \
         /etc/nginx/sites-available/kubernetes.default.svc.cluster.local
 
         sudo ln -s /etc/nginx/sites-available/kubernetes.default.svc.cluster.local /etc/nginx/sites-enabled/
@@ -36,16 +41,34 @@
     - pause:
         seconds: 10            
 
-    - name: Start the Controller Services      
+    - name: Restart the nginx      
       become: true
       systemd:
         state: restarted
         name: nginx
         daemon_reload: yes   
 
-    - name: Enable the Controller Services      
+    - name: Enable the nginx      
       become: true
       systemd:
         name: nginx
-        daemon_reload: yes            
+        daemon_reload: yes   
+        
+    - name: Verification
+      become: true
+      shell: |
+        kubectl get componentstatuses --kubeconfig admin.kubeconfig
+      register: verification_result        
+
+    - debug:
+        var: verification_result.stdout_lines 
+       
+    - name: Test the nginx HTTP health check proxy
+      become: true
+      shell: |
+        curl -H "Host: kubernetes.default.svc.cluster.local" -i http://127.0.0.1/healthz
+      register: curl_output  
+      
+    - debug:
+        var: curl_output.stdout_lines       
       
