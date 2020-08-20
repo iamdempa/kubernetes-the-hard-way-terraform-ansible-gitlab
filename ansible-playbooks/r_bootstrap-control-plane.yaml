@@ -123,11 +123,10 @@
 
     - name: Start the Controller Services      
       become: true
-      systemd:
-        state: started
-        daemon_reload: yes
+      service:        
         name: "{{ item }}"
-        enabled: yes
+        state: started
+        use: service
       with_items:
         - kube-apiserver 
         - kube-controller-manager 
@@ -135,9 +134,10 @@
 
     - name: Enable the Controller Services      
       become: true
-      systemd:
+      service:
         name: "{{ item }}"
-        enabled: yes
+        state: started
+        use: service
       with_items:
         - kube-apiserver 
         - kube-controller-manager 
