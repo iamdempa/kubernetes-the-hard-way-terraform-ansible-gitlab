@@ -22,7 +22,10 @@
 
     - name: Copying ca.pem to /var/lib/kubernetes/
       become: true
-      copy: src=ca.pem dest=/var/lib/kubernetes/
+      copy: 
+        src: ca.pem 
+        dest: /var/lib/kubernetes/
+        remote_src: yes
 
     - name: Create kubernetes.default.svc.cluster.local for nginx
       become: true
