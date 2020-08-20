@@ -217,6 +217,7 @@ Bootstrap-control-plane:
 #   tags:
 #     - banuka-gcp-k8s-hard-way
 
+
 destroy:
   stage: DESTROY
   script:
