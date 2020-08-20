@@ -16,7 +16,6 @@ stages:
 
   - DESTROY
 
-
 create-ssh-key-pair:
   stage: create-ssh-key-pair
   script:
@@ -88,7 +87,6 @@ restart-sshd:
   tags:
     - banuka-gcp-k8s-hard-way
 
-
 ansible-ping-test:
   stage: test-ansible
   retry:
@@ -103,7 +101,6 @@ ansible-ping-test:
   tags:
     - banuka-gcp-k8s-hard-way
 
-
 Install-client-tools:
   stage: ansible-play-books-client-tools
   # retry:
@@ -112,12 +109,12 @@ Install-client-tools:
   #     - always
   script:
     - echo "Executing ansible playbooks for installing prerequisites client tools"
-    - ansible-playbook ./ansible-playbooks/1_cfssl.yaml 
+    - ansible-playbook ./ansible-playbooks/1_cfssl.yaml
     - ansible-playbook ./ansible-playbooks/2_kubectl.yaml
   # when: delayed
   # start_in: 1 minutes
   tags:
-    - banuka-gcp-k8s-hard-way 
+    - banuka-gcp-k8s-hard-way
 
 Create-Certificates:
   stage: ansible-play-books-create-certs
@@ -139,8 +136,7 @@ Create-Certificates:
   # when: delayed
   # start_in: 1 minutes
   tags:
-    - banuka-gcp-k8s-hard-way 
-
+    - banuka-gcp-k8s-hard-way
 
 Create-Config-Files:
   stage: ansible-play-books-create-config-files
@@ -159,10 +155,8 @@ Create-Config-Files:
   # when: delayed
   # start_in: 1 minutes
   tags:
-    - banuka-gcp-k8s-hard-way    
+    - banuka-gcp-k8s-hard-way
 
-
-    
 Data-encryption:
   stage: ansible-play-books-data-encryption
   # retry:
@@ -175,8 +169,7 @@ Data-encryption:
   # when: delayed
   # start_in: 1 minutes
   tags:
-    - banuka-gcp-k8s-hard-way   
-
+    - banuka-gcp-k8s-hard-way
 
 Bootstrap-etcd:
   stage: bootstrap-etcd
@@ -190,9 +183,7 @@ Bootstrap-etcd:
   when: delayed
   start_in: 1 minutes
   tags:
-    - banuka-gcp-k8s-hard-way   
-
-
+    - banuka-gcp-k8s-hard-way
 
 Bootstrap-control-plane:
   stage: bootstrap-control-plane
@@ -205,8 +196,7 @@ Bootstrap-control-plane:
     - ansible-playbook ./ansible-playbooks/r_bootstrap-control-plane.yaml
     - ansible-playbook ./ansible-playbooks/s_http-health-checks.yaml
   tags:
-    - banuka-gcp-k8s-hard-way   
-
+    - banuka-gcp-k8s-hard-way
 
 # destroy_if_failed:
 #   stage: DESTROY
@@ -216,7 +206,6 @@ Bootstrap-control-plane:
 #   when: on_failure
 #   tags:
 #     - banuka-gcp-k8s-hard-way
-
 
 destroy:
   stage: DESTROY
