@@ -18,7 +18,7 @@
         - https://storage.googleapis.com/kubernetes-release/release/v1.18.6/bin/linux/amd64/kubectl
 
 
-    - name: Changing perm of binaries, adding "+x"
+    - name: Changing perm of binaries in /tmp, adding "+x"
       become: true
       file:
         dest: "{{ item }}"
@@ -29,10 +29,10 @@
         - /tmp/kube-scheduler
         - /tmp/kubectl
 
-    - name: move the binaries to usr/loca/bin
+    - name: move the binaries from /tmp to usr/loca/bin
       become: true
       shell: |
-        sudo cp /tmp/kube-apiserver /tmp/kube-controller-manager /tmp/kube-scheduler /tmp/kubectl /usr/local/bin/
+        sudo mv /tmp/kube-apiserver /tmp/kube-controller-manager /tmp/kube-scheduler /tmp/kubectl /usr/local/bin/
 
     - name: Changing perm of binaries, adding "+x"
       become: true
