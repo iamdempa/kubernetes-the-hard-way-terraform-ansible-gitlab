@@ -1,7 +1,6 @@
 ---
 - hosts: kube_master
   tasks:
-
     - name: Installing nginx
       become: true
       shell: |
@@ -18,16 +17,17 @@
         name: nginx
         state: present
 
-
     - pause:
-        seconds: 10        
+        seconds: 10
 
+    - name: Copying ca.pem to /var/lib/kubernetes/
+      become: true
+      copy: src=ca.pem dest=/var/lib/kubernetes/
 
     - name: Create kubernetes.default.svc.cluster.local for nginx
       become: true
       shell: |
-        sudo cp ca.pem /var/lib/kubernetes/
-        
+
         cat > kubernetes.default.svc.cluster.local <<EOF
         server {
           listen      80;
@@ -38,44 +38,47 @@
             proxy_ssl_trusted_certificate /var/lib/kubernetes/ca.pem;
           }
         }
-        EOF
+        EO
+        
+    - name: Copying kubernetes.default.svc.cluster.local to /var/lib/kubernetes/
+      become: true
+      copy: src=kubernetes.default.svc.cluster.local dest=/etc/nginx/sites-available/
 
-        sudo cp kubernetes.default.svc.cluster.local \
-        /etc/nginx/sites-available/kubernetes.default.svc.cluster.local
-
-        sudo ln -s /etc/nginx/sites-available/kubernetes.default.svc.cluster.local /etc/nginx/sites-enabled/
+    - name: sudo ln
+      become: true
+      shell: |
+        sudo ln -s /etc/nginx/sites-available/kubernetes.default.svc.cluster.local /etc/nginx/sites-enabled/      
 
     - pause:
-        seconds: 10            
+        seconds: 10
 
-    - name: Restart the nginx      
+    - name: Restart the nginx
       become: true
       systemd:
         state: restarted
         name: nginx
-        daemon_reload: yes   
+        daemon_reload: yes
 
-    - name: Enable the nginx      
+    - name: Enable the nginx
       become: true
       systemd:
         name: nginx
-        daemon_reload: yes   
-        
+        daemon_reload: yes
+
     - name: Verification
       become: true
       shell: |
         kubectl get componentstatuses --kubeconfig admin.kubeconfig
-      register: verification_result        
+      register: verification_result
 
     - debug:
-        var: verification_result.stdout_lines 
-       
+        var: verification_result.stdout_lines
+
     - name: Test the nginx HTTP health check proxy
       become: true
       shell: |
         curl -H "Host: kubernetes.default.svc.cluster.local" -i http://127.0.0.1/healthz
-      register: curl_output  
-      
+      register: curl_output
+
     - debug:
-        var: curl_output.stdout_lines       
-      
+        var: curl_output.stdout_lines
