@@ -44,7 +44,10 @@
         
     - name: Copying kubernetes.default.svc.cluster.local to /var/lib/kubernetes/
       become: true
-      copy: src=kubernetes.default.svc.cluster.local dest=/etc/nginx/sites-available/
+      copy: 
+        src: kubernetes.default.svc.cluster.local 
+        dest: /etc/nginx/sites-available/
+        remote_src: yes
 
     - name: sudo ln
       become: true
