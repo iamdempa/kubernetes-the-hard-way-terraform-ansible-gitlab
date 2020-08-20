@@ -18,9 +18,16 @@
         name: nginx
         state: present
 
+
+    - pause:
+        seconds: 10        
+
+
     - name: Create kubernetes.default.svc.cluster.local for nginx
       become: true
       shell: |
+        sudo cp ca.pem /var/lib/kubernetes/
+        
         cat > kubernetes.default.svc.cluster.local <<EOF
         server {
           listen      80;
