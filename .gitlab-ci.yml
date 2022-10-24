@@ -2,6 +2,7 @@ stages:
   - create-ssh-key-pair
   - check-prerequisites
   - install-terraform
+  
   - BUILD-INFRASTRUCTURE
   - restart-sshd
   - test-ansible
